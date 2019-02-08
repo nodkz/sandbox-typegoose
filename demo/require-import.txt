@@ -1,0 +1,15 @@
+function app() {}
+
+export {
+  app
+};
+
+export default app;
+
+--------------
+
+const app = require('./').default;
+import app from './';
+
+const { app } = require('./');
+import { app } from './';

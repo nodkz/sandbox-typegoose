@@ -1,54 +1,28 @@
-import { prop, Typegoose, pre, post } from 'typegoose';
-// import * as mongoose from "mongoose";
-import { composeWithMongoose } from 'graphql-compose-mongoose';
-
 // mongoose.connect("mongodb://localhost:27017/test");
 
-class Abc {
-  @prop()
-  public a: string;
-
-  @prop()
-  public b: number;
+export function getMongooseTypeNames() {
+  return {
+    ok: { a: 1, b: 2, c: 3 },
+    ok2: [1, 2, 5, 9],
+  };
 }
 
-@pre<User>('save', function(next) {
-  this.preSave();
-  next();
-})
-@post<User>('save', user => {
-  user.postSave();
-})
-class User extends Typegoose {
-  @prop({ default: 'ok', required: true })
-  public name?: string;
+export function maybeError(a: number) {
+  if (a > 100) throw new Error('Argument must be less than 100');
 
-  @prop()
-  public ok: Date;
-
-  @prop()
-  public abc: Abc;
-
-  public preSave() {}
-  public postSave() {}
+  return true;
 }
 
-const UserModel = new User().getModelForClass(User);
+export async function sleep(ms: number, cb?: (waitedTime: number) => any) {
+  return new Promise(resolve =>
+    setTimeout(() => {
+      resolve(cb ? cb(ms) : null);
+    }, ms)
+  );
+}
 
-// UserModel is a regular Mongoose Model with correct types
-(async () => {
-  const u = new UserModel({ name: 'JohnDoe' });
-  await u.save();
-  const user = await UserModel.findOne();
+export async function maybeReject(a: number) {
+  if (a > 100) throw new Error('Argument must be less than 100');
 
-  if (user) {
-    console.log(user.name);
-  }
-
-  // prints { _id: 59218f686409d670a97e53e0, name: 'JohnDoe', __v: 0 }
-  console.log(user);
-})();
-
-const UserTC = composeWithMongoose(UserModel);
-console.log(UserTC.getFieldNames());
-console.log(UserTC.getFieldTC('abc').getFieldNames());
+  return true;
+}
