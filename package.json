@@ -8,7 +8,8 @@
     "clear": "rm -rf dist || true && mkdir dist",
     "watch-node": "nodemon --watch ./dist --delay 1",
     "watch-ts": "yarn clear && tsc --watch --preserveWatchOutput",
-    "watch": "concurrently -k npm:watch-*"
+    "watch": "concurrently -k npm:watch-*",
+    "tslint": "tslint --fix -p tsconfig.json -c tslint.json"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,11 @@
     "@types/reflect-metadata": "^0.1.0",
     "concurrently": "^4.1.0",
     "nodemon": "^1.18.9",
+    "prettier": "^1.16.4",
     "ts-node": "^8.0.2",
+    "tslint": "^5.12.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
     "typescript": "^3.3.3"
   },
   "dependencies": {
